@@ -1,0 +1,27 @@
+.sidebar {
+    width: 240px;
+    background-color: #1e1f26;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+    background-color: #3b3f4a;
+}

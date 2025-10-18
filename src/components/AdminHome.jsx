@@ -1,133 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import './styles/AdminHome.css';
+// src/components/AdminHome.jsx
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Sidebar from './Sidebar'
+import ProfileAvatar from './ProfileAvatar'
 
+import Dashboard from './Dashboard'
+import Users from './Users'
+import Conversations from './Conversations'
+import Settings from './Settings'
 
-function AdminHome(){
-    const home = useNavigate();
-    
-    const [adminData, setAdminData] = useState({});
-    const [ganadores, setGanadores] = useState([]);
-    const navigate = useNavigate();
+import '../styles/AdminHome.css'
 
-    const palabrasProhibidas = ["hpta", "malparido", "perra"];
-
-    useEffect(() => {
-        // Simulación de datos del admin
-        setAdminData({
-            nombre: "Admin",
-            email: "admin@example.com",
-            rol: "Administrador"
-        });
-
-        // Obtener la lista de ganadores
-        fetch('https://gana-como-loco-allrg1104-backend.vercel.app/v1/getPartip')
-            .then(response => response.json())
-            .then(data => setGanadores(data))
-            .catch(error => console.error('Error fetching ganadores:', error));
-    }, []);
-
-    function handleSelectSigno(event) {
-        const signo = event.target.value;
-        if (signo !== "0") {
-            setSignoEditar(signo);
-        }
-    }
-
-    function handleSelectGenero(event) {
-        const genero = event.target.value;
-        if (genero !== "0") {
-            setGeneroEditar(genero);
-        }
-    }
-
-    function handleClick(e) {
-        e.preventDefault();
-
-        const textoProhibido = palabrasProhibidas.some(palabra => textoEditar.toLowerCase().includes(palabra));
-        if (textoProhibido) {
-            alert("El texto contiene palabras no permitidas. Por favor, modifícalo.");
-            return;
-        }
-
-        if (signoEditar && generoEditar) {
-            fetch(`http://localhost:4000/v1/signos/${signoEditar}?genero=${generoEditar}`, {
-                method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "textoEditar": textoEditar })
-            });
-        }
-    }
-
+function AdminHome() {
     return (
+        <div className="admin-container">
+            {/* Sidebar a la izquierda */}
+            <Sidebar />
 
-        <div className='allAdminHome'>
-        <div className="admin-home">
-        <header className="header">
-        <img src="/logo.png" alt="Gana Como Loco Logo" className="logo" />
+            {/* Contenido central */}
+            <div className="admin-content">
+                <header className="admin-header">
+                    <h2>Panel Administrativo</h2>
+                    <ProfileAvatar />
+                </header>
 
-        <nav>
-          <button onClick={() => navigate('/ChangePassword')}>Cambiar Contraseña</button>
-          <button onClick={() => navigate('/')}>Cerrar Sesión</button>
-        </nav>
-
-      </header>
-
-        <div className="main-content ">
-            <h2 id="welcomeAdmin">¡Bienvenido!, {adminData.nombre}</h2>
-            
-            <section className="admin-info">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{adminData.nombre}</td>
-                        <td>{adminData.email}</td>
-                        <td>{adminData.rol}</td>
-                    </tr>
-                </tbody>
-            </table>
-            </section>
-            
-
-            <section className="lista-codigo">
-            <h2>Lista de Ganadores</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha de Registro</th>
-                        <th>Nombre</th>
-                        <th>Cedula</th>
-                        <th>Celular</th>
-                        <th>Número de Código</th>
-                        <th>Premio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ganadores.map((ganador, index) => (
-                        <tr key={index}>
-                            <td>{ganador.fecha}</td>
-                            <td>{ganador.nombre}</td>
-                            <td>{ganador.cedula}</td>
-                            <td>{ganador.numeroCelular}</td>
-                            <td>{ganador.code}</td>
-                            <td>{ganador.premio}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            </section>
-            
+                <main className="admin-main">
+                    <Routes>
+                        <Route path="/" element={<Navigate to="dashboard" />} />
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="users" element={<Users />} />
+                        <Route path="conversations" element={<Conversations />} />
+                        <Route path="settings" element={<Settings />} />
+                    </Routes>
+                </main>
+            </div>
         </div>
-        </div>
-        </div>
-    );
+    )
 }
 
-export default AdminHome;
+export default AdminHome

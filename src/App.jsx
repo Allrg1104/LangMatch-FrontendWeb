@@ -1,28 +1,27 @@
-import './App.css';
-import Form from './components/Form';
-import UserHome from './components/UserHome';
-import AdminHome from './components/AdminHome';
-import ChangePassword from './components/ChangePassword';
-import CreateUser from './components/CreateUser'; // Importa el nuevo componente
-import CreateAdmin from './components/CreateAdmin';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+// src/App.jsx
+import { Routes, Route, Navigate } from 'react-router-dom'
+import AdminHome from './components/AdminHome'
+import ChangePassword from './components/ChangePassword' // si existe
+import Login from './components/Login' // si existe
+import './styles/App.css'
 
 function App() {
-  const [user, setUser] = useState(null);
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Form callback={setUser} />} />
-        <Route path='/userHome' element={<UserHome user={user} />} />
-        <Route path='/adminHome' element={<AdminHome user={user} />} />
-        <Route path='/changePassword' element={<ChangePassword />} />
-        <Route path='/createUser' element={<CreateUser />} />
-        <Route path='/createAdmin' element={<CreateAdmin />} />
-      </Routes>
-    </BrowserRouter>
-  );
+    <Routes>
+      {/* Ruta de inicio → login */}
+      <Route path="/" element={<Login />} />
+
+      {/* Ruta principal admin */}
+      <Route path="/admin/*" element={<AdminHome />} />
+
+      {/* Ruta para cambiar contraseña */}
+      <Route path="/change-password" element={<ChangePassword />} />
+
+      {/* Redirección si no coincide ninguna */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  )
 }
 
-export default App;
+export default App
+

@@ -7,129 +7,99 @@
   background: linear-gradient(135deg, #141e30, #243b55);
 }
 
-/* 🎭 Estilo general del cuerpo */
-body {
+/* 🎭 Estructura general del layout */
+body, html {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
-/* 📦 Contenedor raíz */
 #root {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 3rem;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(12px);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 🌀 Animación del logo */
-.logo {
-  height: 7em;
-  padding: 1.5em;
-  transition: transform 0.4s, filter 0.3s;
+/* 📊 Layout principal del dashboard */
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #141e30, #243b55);
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #ff512faa);
-  transform: scale(1.1);
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px 0 0 12px;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo {
-    animation: logo-spin infinite 12s linear;
-  }
-}
-
-/* ✨ Tarjetas */
+/* ✨ Tarjetas y contenedores */
 .card {
-  padding: 2.5em;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 2em;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
   border-radius: 12px;
+  margin-bottom: 1.5rem;
 }
 
-/* 📖 Sección de documentación */
-.read-the-docs {
-  color: #bbb;
-  font-size: 1.1rem;
-}
-
-/* ✏️ Área de entrada bien estructurada */
-.input-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 15px;
+/* 📊 Tablas y contenido interno */
+.table {
   width: 100%;
-  justify-content: space-between;
+  border-collapse: collapse;
+  color: #fff;
 }
 
-/* 📏 Input con límites */
-.input-area input {
-  flex: 1;
-  max-width: 70%;
+.table th, .table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  color: #fff;
 }
 
-/* 🚀 Botón de enviar dentro de su zona */
-.input-area button {
-  flex-shrink: 0;
-  padding: 8px 16px; /* Tamaño más pequeño */
-  font-size: 0.9rem;
-  border-radius: 6px;
+.table th {
+  text-align: left;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 🔘 Botones */
+button {
   background: linear-gradient(to right, #ff512f, #dd2476);
-  color: #fff;
-  transition: 0.3s ease-in-out;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
-.input-area button:hover {
+button:hover {
+  transform: scale(1.05);
   background: linear-gradient(to right, #ff7730, #ff3377);
 }
 
-/* 🚪 Botón de cerrar sesión más compacto */
-.logout-button {
-  padding: 6px 10px; /* Tamaño más pequeño */
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: 2px solid #ffffff;
-  color: #ffffff;
-  background: none;
-  margin-left: 5px; /* Menos separación */
-}
-
-.logout-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 📢 Pie de página */
+/* 📢 Footer */
 .footer {
   background: linear-gradient(to right, #141e30, #243b55);
   color: #ffffff;
   text-align: center;
   padding: 15px;
   font-size: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 📱 Responsivo */
+@media (max-width: 900px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-content {
+    border-radius: 0;
+  }
 }

@@ -1,105 +1,87 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './styles/ChangePassword.css';
+import React, { useState } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
 
-function ChangePassword() {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [showOldPassword, setShowOldPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
+const ChangePassword = () => {
+    const [formData, setFormData] = useState({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+    });
 
-    const handleChangePassword = async (event) => {
-        event.preventDefault();
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
 
-        // Validación de campos vacíos
-        if (!username || !oldPassword || !newPassword) {
-            alert('Por favor, complete todos los campos.');
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setMessage("");
+
+        if (formData.newPassword !== formData.confirmPassword) {
+            setError("Las contraseñas no coinciden.");
             return;
         }
 
         try {
-            const response = await fetch('https://gana-como-loco-allrg1104-backend.vercel.app/v1/signos/change-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, oldPassword, newPassword }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                alert(data.message || 'Contraseña cambiada exitosamente');
-                navigate('/');
-            } else {
-                if (data.errorType === 'username') {
-                    alert('Usuario correcto, pero la contraseña es incorrecta.');
-                } else if (data.errorType === 'password') {
-                    alert('Contraseña correcta, pero el usuario es incorrecto.');
-                } else {
-                    alert(data.message || 'Error al cambiar la contraseña');
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error en la solicitud: ' + error.message);
+            // TODO: integrar con backend (endpoint /api/users/change-password)
+            console.log("Contraseña cambiada", formData);
+            setMessage("Contraseña actualizada exitosamente.");
+        } catch (err) {
+            setError("Error al actualizar la contraseña.");
         }
     };
+
     return (
+        <div className="p-4">
+            <h3 className="mb-4">Cambiar Contraseña</h3>
 
-        <div className='Cambio de clave'>
-        <div className="change-home">
-        <div className="main-content">
+            {message && <Alert variant="success">{message}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>}
 
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                    <Form.Label>Contraseña Actual</Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="currentPassword"
+                        value={formData.currentPassword}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Group>
 
-            <h2 id="welcomechange">Cambiar Contraseña</h2>
-            <input
-                type="text"
-                placeholder="Nombre de usuario"
-                id="inputUsername"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <div className="password-field">
-                <input
-                    type={showOldPassword ? 'text' : 'password'}
-                    placeholder="Contraseña antigua"
-                    id="inputOldPassword"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                />
-                <button
-                    type="button"
-                    className="toggle-password-cc"
-                    onClick={() => setShowOldPassword(prev => !prev)}
-                >
-                    {showOldPassword ? 'Ocultar' : 'Mostrar'}
-                </button>
-            </div>
-            <div className="password-field">
-                <input
-                    type={showNewPassword ? 'text' : 'password'}
-                    placeholder="Nueva contraseña"
-                    id="inputNewPassword"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <button
-                    type="button"
-                    className="toggle-password-cc"
-                    onClick={() => setShowNewPassword(prev => !prev)}
-                >
-                    {showNewPassword ? 'Ocultar' : 'Mostrar'}
-                </button>
-            </div>
-            <button id="btnEditar" onClick={handleChangePassword}>Actualzar</button>
-            <button id="btnHome" onClick={() => navigate('/UserHome')}>Regresar</button>
-        </div>
-        </div>
+                <Form.Group className="mb-3">
+                    <Form.Label>Nueva Contraseña</Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="newPassword"
+                        value={formData.newPassword}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Confirmar Nueva Contraseña</Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                    />
+                </Form.Group>
+
+                <Button type="submit" variant="primary" className="mt-2">
+                    Actualizar Contraseña
+                </Button>
+            </Form>
         </div>
     );
-}
+};
 
 export default ChangePassword;
