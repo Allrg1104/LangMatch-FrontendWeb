@@ -1,36 +1,21 @@
 import React from "react";
-import LanguagePieChart from "./Charts/LanguagePieChart";
-import LevelBarChart from "./Charts/LevelBarChart";
-import AvgConversationTimeCard from "./Charts/AvgConversationTimeCard";
-import TopUsersChart from "./Charts/TopUsersChart";
-import TopTopicsChart from "./Charts/TopTopicsChart";
+import DashboardHome from "./DashboardHome";
+import UsersTable from "./UsersTable";
+import ConversationsTable from "./ConversationsTable";
 
 const MetricsDashboard = () => {
     return (
-        <div className="container-fluid">
-            <h4 className="mb-4">Panel de Métricas</h4>
+        <div className="container-fluid py-4">
+            <h4 className="mb-4 text-primary">Panel de Métricas</h4>
 
-            <div className="row">
-                <div className="col-md-4">
-                    <AvgConversationTimeCard />
-                </div>
-                <div className="col-md-8">
-                    <LanguagePieChart />
-                </div>
-            </div>
+            <DashboardHome />
 
-            <div className="row">
+            <div className="row mt-4">
                 <div className="col-md-6">
-                    <LevelBarChart />
+                    <UsersTable />
                 </div>
                 <div className="col-md-6">
-                    <TopTopicsChart />
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col-md-12">
-                    <TopUsersChart />
+                    <ConversationsTable />
                 </div>
             </div>
         </div>

@@ -1,40 +1,71 @@
-// src/components/AdminHome.jsx
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Sidebar from './Sidebar'
-import ProfileAvatar from './ProfileAvatar'
+import React from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Sidebar from "./Navbar/Sidebar.jsx";
+import DashboardHome from "./Dashboard/DashboardHome.jsx";
+import UsersTable from "./Dashboard/UsersTable.jsx";
+import MetricsDashboard from "./Dashboard/MetricsDashboard.jsx";
+import ChangePassword from "./Config/ChangePassword";
+import "./Navbar/Navbar.css"; // ✅ Estilos del sidebar + topbar
 
-import Dashboard from './Dashboard'
-import Users from './Users'
-import Conversations from './Conversations'
-import Settings from './Settings'
+const AdminHome = () => {
+    const navigate = useNavigate();
 
-import '../styles/AdminHome.css'
+    // 🔹 Simulación de datos del admin (puede venir del backend o localStorage)
+    const admin = JSON.parse(localStorage.getItem("admin")) || {
+        name: "Administrador",
+        email: "admin@linguametrics.com",
+    };
 
-function AdminHome() {
+    // 🔹 Cerrar sesión
+    const handleLogout = () => {
+        localStorage.removeItem("admin");
+        navigate("/"); // redirige al login o inicio
+    };
+
     return (
-        <div className="admin-container">
-            {/* Sidebar a la izquierda */}
+        <div className="d-flex navbar-layout">
+            {/* Sidebar fijo */}
             <Sidebar />
 
-            {/* Contenido central */}
-            <div className="admin-content">
-                <header className="admin-header">
-                    <h2>Panel Administrativo</h2>
-                    <ProfileAvatar />
-                </header>
+            {/* Contenedor principal */}
+            <div
+                className="flex-grow-1 main-content"
+                style={{
+                    background: "#f5f6fa",
+                    minHeight: "100vh",
+                }}
+            >
+                {/* 🔹 Topbar fija */}
+                <div className="topbar">
+                    <div className="topbar-left">
+                        <h5>👋 Bienvenido, {admin.name}</h5>
+                    </div>
 
-                <main className="admin-main">
+                    <div className="topbar-right">
+                        <div className="avatar-circle">
+                            {admin.name.charAt(0).toUpperCase()}
+                        </div>
+                        <button
+                            onClick={handleLogout}
+                            className="btn btn-outline-light btn-sm ms-3"
+                        >
+                            Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+
+                {/* 🔹 Contenido dinámico con margen superior */}
+                <div className="admin-content p-4" style={{ marginTop: "80px" }}>
                     <Routes>
-                        <Route path="/" element={<Navigate to="dashboard" />} />
-                        <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="users" element={<Users />} />
-                        <Route path="conversations" element={<Conversations />} />
-                        <Route path="settings" element={<Settings />} />
+                        <Route path="/" element={<DashboardHome />} />
+                        <Route path="users" element={<UsersTable />} />
+                        <Route path="metrics" element={<MetricsDashboard />} />
+                        <Route path="settings" element={<ChangePassword />} />
                     </Routes>
-                </main>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AdminHome
+export default AdminHome;

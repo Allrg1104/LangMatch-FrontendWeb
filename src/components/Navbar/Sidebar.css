@@ -25,3 +25,19 @@
 .sidebar li.active {
     background-color: #3b3f4a;
 }
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #0d6efd;
+    /* azul Bootstrap */
+}
+
+.nav-link.active {
+    background-color: #3b3f4a;
+    border-radius: 8px;
+    color: #0d6efd;
+}

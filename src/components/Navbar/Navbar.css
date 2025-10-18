@@ -1,0 +1,56 @@
+.navbar-layout {
+    display: flex;
+    height: 100vh;
+}
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 240px; /* ⬅️ asegúrate de que coincida con el ancho real del sidebar */
+    right: 0;
+    height: 60px;
+    background-color: #1f2a40;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.topbar-left h5 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Espacio para evitar que el contenido quede debajo de la topbar */
+.admin-content {
+    margin-top: 80px; /* altura de la topbar + pequeño espacio */
+}
+
+/* Contenedor principal con estructura limpia */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f6fa;
+}

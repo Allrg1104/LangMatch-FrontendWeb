@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const ConversationsTable = () => {
+    const [conversaciones, setConversaciones] = useState([]);
+    const API_URL = "http://localhost:5000/api/chat/dashboard";
+
+    useEffect(() => {
+        const fetchConversaciones = async () => {
+            try {
+                const res = await axios.get(API_URL);
+                setConversaciones(res.data.data.ultimasPracticas || []);
+            } catch (error) {
+                console.error("❌ Error al obtener conversaciones:", error);
+            }
+        };
+        fetchConversaciones();
+    }, []);
+
     return (
         <div className="card p-3 mb-4 shadow-sm">
             <h5 className="card-title">Últimas conversaciones</h5>
@@ -13,27 +29,26 @@ const ConversationsTable = () => {
                             <th>Idioma</th>
                             <th>Duración</th>
                             <th>Fecha</th>
-                            <th>Tema</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Aquí se mapearán las conversaciones */}
-                        <tr>
-                            <td>1</td>
-                            <td>Juan Pérez</td>
-                            <td>Inglés</td>
-                            <td>15 min</td>
-                            <td>2025-10-10</td>
-                            <td>Viajes</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Ana López</td>
-                            <td>Francés</td>
-                            <td>8 min</td>
-                            <td>2025-10-12</td>
-                            <td>Comida</td>
-                        </tr>
+                        {conversaciones.length > 0 ? (
+                            conversaciones.map((c, i) => (
+                                <tr key={i}>
+                                    <td>{i + 1}</td>
+                                    <td>{c.userId?.slice(-4) || "N/A"}</td>
+                                    <td>{c.idioma}</td>
+                                    <td>{c.duracionMinutos} min</td>
+                                    <td>{new Date(c.endTime).toLocaleDateString()}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5" className="text-center">
+                                    No hay conversaciones registradas
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
